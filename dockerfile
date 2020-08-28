@@ -3,6 +3,7 @@ FROM ubuntu:latest
 LABEL maintainer="Sean Elliott <sean@mybeda.com>"
 LABEL "splunk-appinspect-version"="latest"
 ENV AppInspectVersion=latest
+ENV TZ=America/New_York
 
 # Prep the environment and install variables.
 RUN apt-get update && apt-get -y upgrade
