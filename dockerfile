@@ -1,20 +1,23 @@
-FROM ubuntu:latest
+FROM debian:latest
 
 LABEL maintainer="Sean Elliott <sean@mybeda.com>"
 LABEL "splunk-appinspect-version"="latest"
+ARG DEBIAN_FRONTEND=noninteractive
 ENV AppInspectVersion=latest
-ENV TZ=America/New_York
+#ENV TZ=America/New_York
 
 # Prep the environment and install variables.
+#RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt-get update && apt-get -y upgrade
 RUN apt-get install -y \
     lib32z1-dev \
+    libmagic-dev\
     libxml2-dev \
     libxslt-dev \
     python-lxml \
-    python3-pip 
+    python3-pip \
+    wget
 RUN pip3 install --upgrade pip setuptools
-RUN apk add --no-cache --update libmagic
 RUN mkdir -p /home/downloads
 RUN mkdir -p /home/splunk_apps
 
