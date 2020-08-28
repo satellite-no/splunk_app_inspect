@@ -23,22 +23,14 @@ echo "Running Splunk AppInspect version $AppInspectVersion"
 splunk-appinspect inspect /home/splunk_apps/target_app.tar.gz --mode precert --included-tags splunk_appinspect --included-tags cloud | tee /tmp/output.txt
 
 # Count warnings produced
-no_of_failures=`awk -F ":" '/failure/ {gsub(" ","");print $2}' /tmp/output.txt`
-no_of_errors=`awk -F ":" '/error/ {gsub(" ","");print $2}' /tmp/output.txt`
-if [ -z "$no_of_failures" ]; then
-        no_of_failures=0
-fi
-if [ -z "$no_of_errors" ]; then
-        no_of_errors=0
-fi
+no_of_skipped=`awk -F ":" '/skipped/ {gsub(" ","");print $2}' /tmp/output.txt`
+no_of_success=`awk -F ":" '/success/ {gsub(" ","");print $2}' /tmp/output.txt`
+no_of_manual_check=`awk -F ":" '/manual_check/ {gsub(" ","");print $2}' /tmp/output.txt`
+no_of_failure=`awk -F ":" '/failure/ {gsub(" ","");print $2}' /tmp/output.txt`
+no_of_warning=`awk -F ":" '/warning/ {gsub(" ","");print $2}' /tmp/output.txt`
+no_of_error=`awk -F ":" '/error/ {gsub(" ","");print $2}' /tmp/output.txt`
+no_of_na=`awk -F ":" '/not_applicable/ {gsub(" ","");print $2}' /tmp/output.txt`
 
-# output failures and warnings.
-echo "failures = $no_of_failures"
-echo "errors = $no_of_errors"
 total_warn=`$no_of_failures + $no_of_errors`
-# If warn then show details.
-if [ "$total_warn" > 0 ]; then
-    cat /tmp/output.txt
-fi
 exit_code=$((no_of_failures + no_of_errors))
 exit $exit_code
