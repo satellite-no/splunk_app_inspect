@@ -28,7 +28,7 @@ RUN wget https://download.splunk.com/misc/appinspect/splunk-appinspect-latest.ta
 RUN pip3 install --upgrade pip
 RUN pip3 install /home/downloads/splunk-appinspect-latest.tar.gz
 RUN splunk-appinspect --help
-COPY run_appinspect.sh /home/run_appinspect.sh
+COPY run_appinspect.sh /home/
 
 # ENTRYPOINT splunk-appinspect inspect /home/splunk_apps/target_app.tar.gz --mode precert --included-tags splunk_appinspect --included-tags cloud
 ENTRYPOINT /home/run_appinspect.sh
