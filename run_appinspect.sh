@@ -21,6 +21,7 @@
 echo "Running Splunk AppInspect version $AppInspectVersion"
 # Run App inspect
 splunk-appinspect inspect /home/splunk_apps/target_app.tar.gz --mode precert --included-tags splunk_appinspect --included-tags cloud | tee /tmp/output.txt
+
 # Count warnings produced
 no_of_failures=`awk -F ":" '/failure/ {gsub(" ","");print $2}' /tmp/output.txt`
 no_of_errors=`awk -F ":" '/error/ {gsub(" ","");print $2}' /tmp/output.txt`
@@ -30,6 +31,7 @@ fi
 if [ -z "$no_of_errors" ]; then
         no_of_errors=0
 fi
+
 # output failures and warnings.
 echo "failures = $no_of_failures"
 echo "errors = $no_of_errors"
